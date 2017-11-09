@@ -56,7 +56,7 @@ if __name__ == '__main__':
         secrets_file.close()
     bittrex = Bittrex(secrets['key'], secrets['secret'])
 
-    timeInterval = 3
+    timeInterval = 60*30
     flag = True
     hourlyRank = {}
     timeline = []#collections.deque(maxlen = 12)
@@ -90,10 +90,11 @@ if __name__ == '__main__':
                 keymin = min(val)
                 maxi = val.index(max(val))
                 mini = val.index(min(val))
-                if (keymax - keymin >= 1 and mini > maxi and timestamp == timeline[mini]):
+                if (keymax - keymin >= 20 and mini > maxi and timestamp == timeline[mini]):
                     msg += 'Rank of '+key+' has raised from '+str(keymax)+'('+timeline[maxi]+') to '+str(keymin)+'('+timeline[mini]+')\n'
-            #sendEmail2('test', msg)
-            print msg
+            if (msg != ''):
+                sendEmail2('test', msg)
+                print msg
                     
             if (len(hourlyRank['BTC-NEO']) > 30):
                 break
